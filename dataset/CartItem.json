@@ -1,0 +1,41 @@
+{
+	"name": "CartItem",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureSqlDatabase1",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "CartItemId",
+				"type": "varchar"
+			},
+			{
+				"name": "CartId",
+				"type": "varchar"
+			},
+			{
+				"name": "ItemId",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Quantity",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "DateCreated",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "Cartitem"
+		}
+	}
+}
