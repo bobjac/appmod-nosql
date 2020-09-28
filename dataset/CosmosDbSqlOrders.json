@@ -1,0 +1,14 @@
+{
+	"name": "CosmosDbSqlOrders",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "CosmosDb2",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "CosmosDbSqlApiCollection",
+		"typeProperties": {
+			"collectionName": "Orders"
+		}
+	}
+}

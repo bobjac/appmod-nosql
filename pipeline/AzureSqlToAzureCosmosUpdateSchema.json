@@ -3,7 +3,7 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "Copy data1",
+				"name": "Copy Items to Blob",
 				"type": "Copy",
 				"dependsOn": [
 					{
@@ -63,11 +63,11 @@
 				]
 			},
 			{
-				"name": "Copy data2",
+				"name": "Copy Items to Cosmos",
 				"type": "Copy",
 				"dependsOn": [
 					{
-						"activity": "Copy data1",
+						"activity": "Copy Items to Blob",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -115,6 +115,97 @@
 				"name": "Delete1",
 				"type": "Delete",
 				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataset": {
+						"referenceName": "ItemBlobsToDelete",
+						"type": "DatasetReference"
+					},
+					"logStorageSettings": {
+						"linkedServiceName": {
+							"referenceName": "ALDSGen2",
+							"type": "LinkedServiceReference"
+						},
+						"path": "logging"
+					},
+					"enableLogging": true,
+					"storeSettings": {
+						"type": "AzureBlobFSReadSettings",
+						"recursive": true
+					}
+				}
+			},
+			{
+				"name": "Copy Orders to Blob",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"sqlReaderQuery": "SELECT [value] FROM OPENJSON(\n(SELECT \n      o.OrderId,\n      o.OrderDate,\n      o.FirstName,\n      o.LastName,\n      o.Address,\n      o.City,\n      o.State,\n      o.PostalCode,\n      o.Country,\n      o.Phone,\n      o.SMSOptin,\n      o.SMSStatus,\n      o.Email,\n      o.ReceiptUrl,\n      o.Total, \n      o.PaymentTransactionId,\n      o.HasBeenShipped,\n      (SELECT od.OrderDetailId, od.OrderId, od.Email, od.ProductId, od.Quantity, od.UnitPrice FROM OrderDetails od WHERE od.OrderId = o.OrderId for json auto) as OrderDetails\n  FROM [dbo].[Orders] o FOR JSON PATH)\n  )",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"sink": {
+						"type": "DelimitedTextSink",
+						"storeSettings": {
+							"type": "AzureBlobFSWriteSettings"
+						},
+						"formatSettings": {
+							"type": "DelimitedTextWriteSettings",
+							"quoteAllText": true,
+							"fileExtension": ".txt"
+						}
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "Orders",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "DelimitedText1",
+						"type": "DatasetReference"
+					}
+				]
+			},
+			{
+				"name": "Delete1_copy1",
+				"type": "Delete",
+				"dependsOn": [
+					{
+						"activity": "Copy Items to Cosmos",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
 				"policy": {
 					"timeout": "7.00:00:00",
 					"retry": 0,
