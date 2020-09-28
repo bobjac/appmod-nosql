@@ -24,7 +24,7 @@
 				"typeProperties": {
 					"source": {
 						"type": "AzureSqlSource",
-						"sqlReaderQuery": "SELECT [value] FROM OPENJSON (\n (SELECT [ItemId]\n      ,[VoteCount]\n      ,[ProductName]\n      ,[ImdbId]\n      ,[Description]\n      ,[ImagePath]\n      ,[ThumbnailPath]\n      ,[UnitPrice]\n      ,[CategoryId]\n      , (SELECT CategoryName from [dbo].[Category] c WHERE c.CategoryId = i.CategoryId) as Category\n      ,[Popularity]\n      ,[OriginalLanguage]\n      ,[ReleaseDate]\n      ,[VoteAverage]\n  FROM [dbo].[Item] i FOR JSON PATH)\n)",
+						"sqlReaderQuery": "SELECT [value] FROM OPENJSON (\n (SELECT [ItemId]\n      ,[VoteCount]\n      ,[ProductName]\n      ,[ImdbId]\n      ,[Description]\n      ,[ImagePath]\n      ,[ThumbnailPath]\n      ,[UnitPrice]\n      ,[CategoryId]\n      , (SELECT CategoryName from [dbo].[Category] c WHERE c.CategoryId = i.CategoryId) as Category\n      ,[Popularity]\n      ,[OriginalLanguage]\n      ,[ReleaseDate]\n      ,[VoteAverage]\n      , (SELECT BuyCount from [dbo].[ItemAggregate] ia WHERE i.ItemId = ia.ItemId) as BuyCount\n      , (SELECT ViewDetailsCount from [dbo].[ItemAggregate] ia WHERE i.ItemId = ia.ItemId) as ViewDetailsCount\n      , (SELECT AddToCartCount from [dbo].[ItemAggregate] ia WHERE i.ItemId = ia.ItemId) as AddToCartCount\n      , (SELECT VoteCount from [dbo].[ItemAggregate] ia WHERE i.ItemId = ia.ItemId) as VoteCount\n  FROM [dbo].[Item] i FOR JSON PATH)\n)",
 						"queryTimeout": "02:00:00",
 						"partitionOption": "None"
 					},
