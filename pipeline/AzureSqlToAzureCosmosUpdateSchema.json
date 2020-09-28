@@ -241,7 +241,7 @@
 				}
 			},
 			{
-				"name": "Copy Items to Cosmos_copy1",
+				"name": "Copy Orders to Cosmos",
 				"type": "Copy",
 				"dependsOn": [
 					{
