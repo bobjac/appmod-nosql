@@ -164,7 +164,7 @@
 				"typeProperties": {
 					"source": {
 						"type": "AzureSqlSource",
-						"sqlReaderQuery": "SELECT [value] FROM OPENJSON(\n(SELECT \n      o.OrderId,\n      o.OrderDate,\n      o.FirstName,\n      o.LastName,\n      o.Address,\n      o.City,\n      o.State,\n      o.PostalCode,\n      o.Country,\n      o.Phone,\n      o.SMSOptin,\n      o.SMSStatus,\n      o.Email,\n      o.ReceiptUrl,\n      o.Total, \n      o.PaymentTransactionId,\n      o.HasBeenShipped,\n      (SELECT od.OrderDetailId, od.OrderId, od.Email, od.ProductId, od.Quantity, od.UnitPrice FROM OrderDetails od WHERE od.OrderId = o.OrderId for json auto) as OrderDetails\n  FROM [dbo].[Orders] o FOR JSON PATH)\n  )",
+						"sqlReaderQuery": "SELECT [value] FROM OPENJSON(\n(SELECT \n      o.OrderId,\n      o.OrderDate,\n      o.FirstName,\n      o.LastName,\n      o.Address,\n      o.City,\n      o.State,\n      o.PostalCode,\n      o.Country,\n      o.Phone,\n      o.SMSOptin,\n      o.SMSStatus,\n      o.Email,\n      o.ReceiptUrl,\n      o.Total, \n      o.PaymentTransactionId,\n      o.HasBeenShipped,\n      (SELECT od.OrderDetailId, od.OrderId, od.Email, od.ProductId, (SELECT i. ProductName FROM Item i WHERE i.ItemId = od.ProductId) as ProductName, od.Quantity, od.UnitPrice FROM OrderDetails od WHERE od.OrderId = o.OrderId for json auto) as OrderDetails\n  FROM [dbo].[Orders] o FOR JSON PATH)\n  )",
 						"queryTimeout": "02:00:00",
 						"partitionOption": "None"
 					},
