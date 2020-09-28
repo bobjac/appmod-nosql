@@ -128,6 +128,13 @@
 						"referenceName": "ItemBlobsToDelete",
 						"type": "DatasetReference"
 					},
+					"logStorageSettings": {
+						"linkedServiceName": {
+							"referenceName": "ALDSGen2",
+							"type": "LinkedServiceReference"
+						},
+						"path": "logging"
+					},
 					"enableLogging": true,
 					"storeSettings": {
 						"type": "AzureBlobFSReadSettings",
