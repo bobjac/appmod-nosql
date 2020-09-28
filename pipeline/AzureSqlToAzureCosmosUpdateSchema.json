@@ -1,0 +1,6 @@
+{
+	"name": "AzureSqlToAzureCosmosUpdateSchema",
+	"properties": {
+		"annotations": []
+	}
+}
