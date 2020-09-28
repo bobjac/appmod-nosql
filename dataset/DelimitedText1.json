@@ -1,0 +1,23 @@
+{
+	"name": "DelimitedText1",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ALDSGen2",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "@concat(pipeline().RunId,'.json')",
+				"folderPath": "processing",
+				"fileSystem": "sqlpipelinedata"
+			},
+			"columnDelimiter": "\t",
+			"escapeChar": "\\",
+			"quoteChar": ""
+		},
+		"schema": []
+	}
+}
